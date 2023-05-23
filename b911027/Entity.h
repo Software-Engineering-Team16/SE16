@@ -1,62 +1,140 @@
-#pragma once
+#include "Entity.h"
 
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-using namespace std;
-#define MAX_STRING 32
-class Member 
+
+Member::Member(int member_type, const char* name, const char* SSN, const char* ID, const char* password)
 {
+	this->member_type = member_type;
+	strncpy(this->name, name, MAX_STRING - 1);
+	strncpy(this->SSN, SSN, MAX_STRING - 1);
+	strncpy(this->ID, ID, MAX_STRING - 1);
+	strncpy(this->password, password, MAX_STRING - 1);
+	this->name[MAX_STRING - 1] = '\0';
+	this->SSN[MAX_STRING - 1] = '\0';
+	this->ID[MAX_STRING - 1] = '\0';
+	this->password[MAX_STRING - 1] = '\0';
+}
 
-private:
-	int member_type; //1ÀÌ¸é È¸»çÈ¸¿ø, 2¸é ÀÏ¹ÝÈ¸¿ø
-	//string name; //ÀÌ¸§
-	//string SSN; //»ç¾÷ÀÚ¹øÈ£ or ÁÖ¹Î¹øÈ£
-	//string ID;
-	//string password;
-	char name[MAX_STRING];
-	char SSN[MAX_STRING];
-	char ID[MAX_STRING];
-	char password[MAX_STRING];
-	bool isLogin = false;
-
-public:
-	Member(int member_type, const char* name, const char* SSN, const char* ID, const char* password);
-	int getMemberType();
-	const char* getName();
-	const char* getSSN();
-	const char* getID();
-	const char* getPassword();
-	bool getIsLogin();
-	void setIsLogin(bool login);
-	bool isMatch(const char * targetID, const char * targetPassword);
-};
-class NormalMember: public Member
+NormalMember::NormalMember(const char* name, const char* SSN, const char* ID, const char* password)
+	: Member(2, name, SSN, ID, password)
 {
-private:
-
-public:
-	NormalMember(const char* name, const char* SSN, const char* ID, const char* password);
-
 	
-};
-class CompanyMember: public Member
+	
+}
+
+CompanyMember::CompanyMember(const char* name, const char* SSN, const char* ID, const char* password)
+	: Member(1, name, SSN, ID, password)
 {
-private:
-public:
-	CompanyMember(const char* name, const char* SSN, const char* ID, const char* password);
+	
+}
 
-};
+Member::~Member() {
 
+}
+int Member::getMemberType()
+{
+	return this->member_type;
+}
 
-class MemberCollection {
+const char* Member::getSSN()
+{
+	return this->SSN;
+}
 
-private: vector<Member*> membersList;
-public: 
+const char* Member::getID()
+{
+	return this->ID;
+}
 
-	void addMember(Member* member);
-	Member* findMember(const char* ID, const char* password);
-};
-//isLogin()?
+const char* Member::getName()
+{
+	return this->name;
+}
 
+const char* Member::getPassword()
+{
+	return this->password;
+}
+
+bool Member::getIsLogin()
+{
+	return this->isLogin;
+}
+void Member::setIsLogin(bool login)
+{
+	if (login == true) this->isLogin = true;
+	else this->isLogin = false;
+}
+bool Member::isMatch(const char* targetID, const char* targetPassword)
+{
+	return (strcmp(ID, targetID) == 0 && strcmp(password, targetPassword) == 0);
+}
+
+void MemberCollection::addMember(Member *member)
+{
+	membersList.push_back(member);
+}
+
+Member* MemberCollection::findLogInMember()
+{
+	if (membersList.empty())
+	{
+		cout << "empty" << endl;
+	}
+	else {
+		for (Member* member : membersList)
+		{
+			if (member->getIsLogin() == true)
+			{
+				return member;
+			}
+		}
+	}
+}
+
+Member* MemberCollection::findMember(const char* ID, const char* password) {
+	if (membersList.empty())
+	{
+		cout << "empty" << endl;
+	}
+	else {
+		for (Member* member : membersList) {
+			if (strcmp(member->getID(), ID) == 0 && strcmp(member->getPassword(), password) == 0) {
+				return member;
+			}
+		}
+	}
+	return nullptr;
+}
+
+void MemberCollection::showMember()
+{
+	if (membersList.empty())
+	{
+		cout << "empty" << endl;
+	}
+	else {
+		for (Member* member : membersList)
+		{
+			cout << member->getID() << endl;
+			cout << member->getName() << endl;
+			if (member->getIsLogin() == true) cout << "login" << endl;
+			else { cout << "not login" << endl; }
+		}
+	}
+	
+}
+
+void MemberCollection::deleteMember(Member* member) {
+	auto it = std::find(membersList.begin(), membersList.end(), member);
+	if (it != membersList.end()) {
+		membersList.erase(it);
+		delete member; // ë©¤ë²„ ê°ì²´ì˜ ë©”ëª¨ë¦¬ í•´ì œ
+		cout << "delete" << endl;
+	}
+	cout << membersList.size() << endl;
+}
+
+Member* MemberCollection::findFirst()
+{
+	return membersList.front();
+}
