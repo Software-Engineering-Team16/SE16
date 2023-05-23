@@ -1,43 +1,45 @@
-#include "Control.h"
+#pragma once
+#include <iostream>
+#include "Entity.h"
+
+using namespace std;
+
+class Join {
+
+private:
+
+	MemberCollection* memberCollection;
+public:
+	//Join();
+	Join(MemberCollection* collection) : memberCollection(collection) {
+		// ìƒì„±ìì—ì„œ MemberCollection ê°ì²´ë¥¼ ë°›ì•„ì™€ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
+	}
+	Member* createMember(int member_type, const char* name, const char* SSN, const char* ID, const char* password);
+
+};
+//memberCollection;
+class LogIn{
+private:
+
+	MemberCollection* memberCollection;
+public: 
+
+	LogIn(MemberCollection* collection) : memberCollection(collection){}
+	Member * logIn(const char *ID, const char *password);
+
+};
+class LogOut {
+private:
+	MemberCollection* memberCollection;
+public: 
+	LogOut(MemberCollection* collection) : memberCollection(collection) {}
+	Member* logOut();
+};
+class DeleteMembership {
+	MemberCollection* memberCollection;
+public: 
+	DeleteMembership(MemberCollection *collection) : memberCollection(collection) {}
+	char* deleteMember();
+};
 
 
-
-Member* Join::createMember(int member_type, const char* name, const char* SSN, const char* ID, const char* password) {
-    Member* newMember = nullptr;
-    if (member_type == 1) {
-        newMember = new CompanyMember(name, SSN, ID, password);
-        cout << "È¸»çÈ¸¿ø »ı¼º" << endl;
-      
-      
-        // È¸»ç È¸¿ø °´Ã¼ »ı¼º ¹× Ã³¸®
-    }
-    else {
-        newMember = new NormalMember(name, SSN, ID, password);
-        // ÀÏ¹İ È¸¿ø °´Ã¼ »ı¼º ¹× Ã³¸®
-        cout << "ÀÏ¹İÈ¸¿ø »ı¼º" << endl;
-     
-        
-      
-    }
-   
-    memberCollection->addMember(newMember);
-    
-  
-    return newMember;
-
-    
-    
-}
-
-Member* MemberCollection::findMember(const char* ID, const char* password) {
-    for (Member* member : membersList) {
-        if (strcmp(member->getID(), ID) == 0 && strcmp(member->getPassword(), password) == 0) {
-            return member;
-        }
-    }
-    return nullptr;
-}
-Member* LogIn::logIn(const char* ID, const char* password)
-{
-    return memberCollection->findMember(ID, password);
-}
