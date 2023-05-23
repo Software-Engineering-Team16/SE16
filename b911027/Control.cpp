@@ -1,45 +1,59 @@
-#pragma once
-#include <iostream>
-#include "Entity.h"
-
-using namespace std;
-
-class Join {
-
-private:
-
-	MemberCollection* memberCollection;
-public:
-	//Join();
-	Join(MemberCollection* collection) : memberCollection(collection) {
-		// 생성자에서 MemberCollection 객체를 받아와 초기화합니다.
-	}
-	Member* createMember(int member_type, const char* name, const char* SSN, const char* ID, const char* password);
-
-};
-//memberCollection;
-class LogIn{
-private:
-
-	MemberCollection* memberCollection;
-public: 
-
-	LogIn(MemberCollection* collection) : memberCollection(collection){}
-	Member * logIn(const char *ID, const char *password);
-
-};
-class LogOut {
-private:
-	MemberCollection* memberCollection;
-public: 
-	LogOut(MemberCollection* collection) : memberCollection(collection) {}
-	Member* logOut();
-};
-class DeleteMembership {
-	MemberCollection* memberCollection;
-public: 
-	DeleteMembership(MemberCollection *collection) : memberCollection(collection) {}
-	char* deleteMember();
-};
+#include "Control.h"
 
 
+
+Member* Join::createMember(int member_type, const char* name, const char* SSN, const char* ID, const char* password) {
+    Member* newMember = nullptr;
+    if (member_type == 1) {
+        newMember = new CompanyMember(name, SSN, ID, password);
+        cout << "회사회원 생성" << endl;
+      
+      
+        // 회사 회원 객체 생성 및 처리
+    }
+    else {
+        newMember = new NormalMember(name, SSN, ID, password);
+        // 일반 회원 객체 생성 및 처리
+        cout << "일반회원 생성" << endl;
+     
+        
+      
+    }
+   
+    memberCollection->addMember(newMember);
+    
+  
+    return newMember;
+
+    
+    
+}
+
+
+Member* LogIn::logIn(const char* ID, const char* password)
+{
+
+  
+   Member *member= memberCollection->findMember(ID, password);
+   member->setIsLogin(true);
+   memberCollection->showMember();
+   return member;
+}
+
+Member* LogOut::logOut()
+{
+    Member *member= memberCollection->findLogInMember();
+    member->setIsLogin(false);
+    memberCollection->showMember();
+    return member;
+}
+char* DeleteMembership::deleteMember()
+{
+    Member* member = memberCollection->findFirst();
+    char* ID = new char[MAX_STRING];
+
+    strncpy(ID, member->getID(), MAX_STRING - 1);
+    memberCollection->deleteMember(member);
+    memberCollection->showMember();
+    return ID;
+}
