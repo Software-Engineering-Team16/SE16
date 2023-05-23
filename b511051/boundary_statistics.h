@@ -1,4 +1,3 @@
-#pragma once
 #include <iostream>
 #include <fstream>
 //일단 다하고 아침에 나누기
@@ -51,4 +50,3 @@ public:
 
 
 };
-#endif
