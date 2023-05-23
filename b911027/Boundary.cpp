@@ -5,8 +5,6 @@ JoinUI::JoinUI(FILE* in_fp, FILE* out_fp, MemberCollection *memberCollection)
 {
 	this->in_fp = in_fp;
 	this->out_fp = out_fp;
-	//MemberCollection* memberCollection=new MemberCollection();
-	//join = new Join(memberCollection);
 	this->memberCollection = memberCollection;
 	join = new Join(memberCollection);
 }
@@ -24,11 +22,11 @@ void JoinUI::createNewMember()
 
 	fscanf(in_fp, "%d %s %s %s %s", &member_type, name, SSN, ID, password);
 	//MemberCollection collection;
-	Member *newMember=join->createMember(member_type, name, SSN, ID, password); //join createMemberÀÇ ¹ÝÈ¯Àº Member °´Ã¼ Æ÷ÀÎÅÍ ÀÏ±î?
+	Member *newMember=join->createMember(member_type, name, SSN, ID, password); //join createMemberì˜ ë°˜í™˜ì€ Member ê°ì²´ í¬ì¸í„° ì¼ê¹Œ?
 	
-	fprintf(out_fp, "1.1. È¸¿ø°¡ÀÔ\n");
+	fprintf(out_fp, "1.1. íšŒì›ê°€ìž…\n");
 	fprintf(out_fp, "> %d %s %s %s %s\n", newMember->getMemberType(), newMember->getName(), newMember->getSSN(), newMember->getID(), newMember->getPassword());
-	//fprintf(out_fp, "> %d %s %s %s %s\n", member_type, name, SSN, ID, password);
+
 	
 	
 }
@@ -47,7 +45,7 @@ void LogInUI::fillinIDPW() {
 	fscanf(in_fp, "%s %s\n", ID, password);
 	Member *loginMember= logIn->logIn(ID, password);
 
-	fprintf(out_fp, "2.1. ·Î±×ÀÎ\n");
+	fprintf(out_fp, "2.1. ë¡œê·¸ì¸\n");
 	fprintf(out_fp, "> %s %s\n",loginMember->getID(), loginMember->getPassword());
 
 	
@@ -58,5 +56,31 @@ LogOutUI::LogOutUI(FILE*in_fp, FILE* out_fp, MemberCollection* memberCollection)
 	this->in_fp = in_fp;
 	this->out_fp = out_fp;
 	this->memberCollection = memberCollection;
-	logOut = new LogOut(memberCollection);
+	_logOut = new LogOut(memberCollection);
+}
+
+void LogOutUI::logOut()
+{
+	
+	fprintf(out_fp, "2.2. ë¡œê·¸ì•„ì›ƒ\n");
+	Member *logoutMember=_logOut->logOut();
+	fprintf(out_fp, "> %s \n", logoutMember->getID());
+}
+DeleteMembershipUI::DeleteMembershipUI(FILE* in_fp, FILE* out_fp, MemberCollection* memberCollection)
+{
+	this->in_fp = in_fp;
+	this->out_fp = out_fp;
+	this->memberCollection = memberCollection;
+	deleteMembership = new DeleteMembership(memberCollection);
+
+}
+
+void DeleteMembershipUI::deleteMember()
+{
+	fprintf(out_fp, "1.2. íšŒì›íƒˆí‡´\n");
+	char ID[MAX_STRING];
+
+	
+	strncpy(ID, deleteMembership->deleteMember(), MAX_STRING-1);
+	fprintf(out_fp, "> %s \n",ID);
 }
