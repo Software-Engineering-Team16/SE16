@@ -1,33 +1,6 @@
 #include "Entity.h"
 
-/*Member::Member(int member_type, const char* name, const char* SSN, const char* ID, const char* password)
-{
-		this->member_type = member_type;
-		this->name = name;
-		this->SSN = SSN;
-		this->ID = ID;
-		this->password = password;
 
-	
-
-	this->member_type = member_type;
-	strncpy(this->name, name, MAX_STRING - 1);
-	strncpy(this->SSN, SSN, MAX_STRING - 1);
-	strncpy(this->ID, ID, MAX_STRING - 1);
-	strncpy(this->password, password, MAX_STRING - 1);
-	this->name[MAX_STRING - 1] = '\0';
-	this->SSN[MAX_STRING - 1] = '\0';
-	this->ID[MAX_STRING - 1] = '\0';
-	this->password[MAX_STRING - 1] = '\0';
-		
-		
-	
-		//member typeÀÌ 1ÀÌ¸é È¸»çÈ¸¿ø
-		//2¸é ÀÏ¹Ý È¸¿ø
-
-
-
-}*/
 Member::Member(int member_type, const char* name, const char* SSN, const char* ID, const char* password)
 {
 	this->member_type = member_type;
@@ -45,15 +18,18 @@ NormalMember::NormalMember(const char* name, const char* SSN, const char* ID, co
 	: Member(2, name, SSN, ID, password)
 {
 	
-	// NormalMemberÀÇ Ãß°¡ÀûÀÎ ÃÊ±âÈ­ ÀÛ¾÷ ¼öÇà
+	
 }
 
 CompanyMember::CompanyMember(const char* name, const char* SSN, const char* ID, const char* password)
 	: Member(1, name, SSN, ID, password)
 {
-	// CompanyMemberÀÇ Ãß°¡ÀûÀÎ ÃÊ±âÈ­ ÀÛ¾÷ ¼öÇà
+	
 }
 
+Member::~Member() {
+
+}
 int Member::getMemberType()
 {
 	return this->member_type;
@@ -96,4 +72,69 @@ bool Member::isMatch(const char* targetID, const char* targetPassword)
 void MemberCollection::addMember(Member *member)
 {
 	membersList.push_back(member);
+}
+
+Member* MemberCollection::findLogInMember()
+{
+	if (membersList.empty())
+	{
+		cout << "empty" << endl;
+	}
+	else {
+		for (Member* member : membersList)
+		{
+			if (member->getIsLogin() == true)
+			{
+				return member;
+			}
+		}
+	}
+}
+
+Member* MemberCollection::findMember(const char* ID, const char* password) {
+	if (membersList.empty())
+	{
+		cout << "empty" << endl;
+	}
+	else {
+		for (Member* member : membersList) {
+			if (strcmp(member->getID(), ID) == 0 && strcmp(member->getPassword(), password) == 0) {
+				return member;
+			}
+		}
+	}
+	return nullptr;
+}
+
+void MemberCollection::showMember()
+{
+	if (membersList.empty())
+	{
+		cout << "empty" << endl;
+	}
+	else {
+		for (Member* member : membersList)
+		{
+			cout << member->getID() << endl;
+			cout << member->getName() << endl;
+			if (member->getIsLogin() == true) cout << "login" << endl;
+			else { cout << "not login" << endl; }
+		}
+	}
+	
+}
+
+void MemberCollection::deleteMember(Member* member) {
+	auto it = std::find(membersList.begin(), membersList.end(), member);
+	if (it != membersList.end()) {
+		membersList.erase(it);
+		delete member; // ë©¤ë²„ ê°ì²´ì˜ ë©”ëª¨ë¦¬ í•´ì œ
+		cout << "delete" << endl;
+	}
+	cout << membersList.size() << endl;
+}
+
+Member* MemberCollection::findFirst()
+{
+	return membersList.front();
 }
