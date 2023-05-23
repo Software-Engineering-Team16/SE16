@@ -18,33 +18,42 @@ private:
 	MemberCollection* memberCollection;
 public:
 	JoinUI(FILE* in_fp, FILE* out_fp, MemberCollection *memberCollection);
-	void createNewMember();	//joinÇÒ ¶§ »õ·Î¿î ¸â¹ö ¸¸µé±â À§ÇØ
+	void createNewMember();	//joiní•  ë•Œ ìƒˆë¡œìš´ ë©¤ë²„ ë§Œë“¤ê¸° ìœ„í•´
 	
-
 };
 
-class LoginUI {
+class LogInUI {
 private:
 	FILE* in_fp;
 	FILE* out_fp;
 	LogIn* logIn;
 	MemberCollection* memberCollection;
 public:
-	LoginUI(FILE* in_fp, FILE* out_fp, MemberCollection *memberCollection);
+	LogInUI(FILE* in_fp, FILE* out_fp, MemberCollection *memberCollection);
 	void fillinIDPW();
 
 };
 
 class DeleteMembershipUI {
 private:
+	FILE* in_fp;
+	FILE* out_fp;
+	DeleteMembership* deleteMembership;
+	MemberCollection* memberCollection;
 public: 
+	DeleteMembershipUI(FILE* in_fp, FILE* out_fp, MemberCollection* memberCollection);
 	void deleteMember();
 
 };
 
 class LogOutUI {
 private:
+	FILE* in_fp;
+	FILE* out_fp;
+	LogOut* _logOut;
+	MemberCollection* memberCollection;
 public:
+	LogOutUI(FILE* in_fp, FILE* out_fp, MemberCollection* memberCollection);
 	void logOut();
 
 
