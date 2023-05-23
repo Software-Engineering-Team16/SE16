@@ -7,37 +7,39 @@ using namespace std;
 class Join {
 
 private:
-	
+
 	MemberCollection* memberCollection;
 public:
 	//Join();
 	Join(MemberCollection* collection) : memberCollection(collection) {
-		// »ı¼ºÀÚ¿¡¼­ MemberCollection °´Ã¼¸¦ ¹Ş¾Æ¿Í ÃÊ±âÈ­ÇÕ´Ï´Ù.
+		// ìƒì„±ìì—ì„œ MemberCollection ê°ì²´ë¥¼ ë°›ì•„ì™€ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
 	}
-	Member *createMember(int member_type, const char* name, const char* SSN, const char* ID, const char* password);
+	Member* createMember(int member_type, const char* name, const char* SSN, const char* ID, const char* password);
 
 };
+//memberCollection;
 class LogIn{
 private:
-	//vector<Member*> membersList;
-//	Member* loggedInMember; //·Î±×ÀÎ µÈ ¸â¹ö °´Ã¼ Æ÷ÀÎÅÍ
-	//vector <Member*>& memberList;
+
 	MemberCollection* memberCollection;
 public: 
-	//LogIn(std::vector<Member*>& members) : memberList(members) {
-		// »ı¼ºÀÚ¿¡¼­ memberList¿¡ ´ëÇÑ ÂüÁ¶¸¦ ÃÊ±âÈ­ÇÕ´Ï´Ù.
-//	}
+
 	LogIn(MemberCollection* collection) : memberCollection(collection){}
 	Member * logIn(const char *ID, const char *password);
 
 };
 class LogOut {
-
-public: void logOut();
+private:
+	MemberCollection* memberCollection;
+public: 
+	LogOut(MemberCollection* collection) : memberCollection(collection) {}
+	Member* logOut();
 };
 class DeleteMembership {
-
-public: void deleteMember();
+	MemberCollection* memberCollection;
+public: 
+	DeleteMembership(MemberCollection *collection) : memberCollection(collection) {}
+	char* deleteMember();
 };
 
 
