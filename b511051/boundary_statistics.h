@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <fstream>
 //일단 다하고 아침에 나누기
@@ -9,44 +10,46 @@
 using namespace std;
 
 class ApplicantNumberStatisticsUI {
+private:
+	ApplicantNumberStatistics* pApplicantNumberStatistics();
+
 public:
-	ApplicantNumberStatisticsUI();
-	void startInterface(ApplicantNumberStatisticsUI* pApplicantNumberStatisticsUI);
+	ApplicantNumberStatistics();
+	viewApplicantNumberStatistics();
 };
 
 
 
 class ApplyStatisticsUI {
-public:
-	ApplyStatisticsUI();
-	void startInterface(ApplyStatisticsUI* pApplyStatisticsUI);
+private:
+	ApplyStatistics& pApplyStatistics();
 
+public:
+	ApplyStatistics();
+	viewApplyStatistics();
+	
 
 };
 
 
 
 class CancelApplyInfoUI {
+private:
+	CancelApplyInfo* pCancelApplyInfo();
+	
 public:
-	CancelApplyInfoUI();
-	void startInterface(CancelApplyInfoUI* pCancelApplyInfoUI);
-
-
-};
-
-class ApplyInfoList {
-public:
-	ApplyInfoList();
-	void startInterface(ApplyInfoList* pApplyInfoList);
-
+	CancelApplyInfo();
+	viewCancelApplyInfo();
 
 };
 
 
 class CheckApplyInfoUI {
-public:
-	CheckApplyInfoUI();
-	void startInterface(CheckApplyInfoUI* pCheckApplyInfoUI);
+private:
+	CheckApplyInfo* pCheckApplyInfo();
 
+public:
+	CheckApplyInfo();
+	viewCheckApplyInfo();
 
 };
